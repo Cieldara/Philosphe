@@ -4,11 +4,10 @@
 #include "semaphore.h"
 #include <stdio.h>
 
-#define NB_PHILO 5
 
-int nb_philo = NB_PHILO;
-int nb_Grain_De_Riz = NB_PHILO;
-pthread_mutex_t mutexs[NB_PHILO];
+int nb_philo = 5;
+int nb_Grain_De_Riz = 5;
+pthread_mutex_t mutexs[5];
 sem_t sem;
 
 struct philo

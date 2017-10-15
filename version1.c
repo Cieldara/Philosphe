@@ -3,16 +3,15 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define NB_PHILO 5
 
-int nb_philo = NB_PHILO;
+int nb_philo = 5;
 int nb_Grain_De_Riz = 8;
-int baguettes_prises[NB_PHILO];
+int baguettes_prises[5];
 int doitPrioriser;
 int aPrioriser;
-int toursSansManger[NB_PHILO];
+int toursSansManger[5];
 //int nbAMange;
-pthread_mutex_t mutexs[NB_PHILO];
+pthread_mutex_t mutexs[5];
 pthread_mutex_t global;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
