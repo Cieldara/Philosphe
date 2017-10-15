@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdio.h>
 
-#define NB_PHILO 2
+#define NB_PHILO 5
 
 int nb_philo = NB_PHILO;
 int nb_Grain_De_Riz = 8;
