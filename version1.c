@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <stdio.h>
 
 
 int nb_philo = 5;
@@ -50,7 +49,7 @@ void prendre_baguettes(int id){
         //prendre le mutex global
         pthread_mutex_lock(&global);
         //boucle pour savoir si les baguettes sont libres
-        while(baguettes_prises[id] || baguettes_prises[(id+1)%nb_philo] || (doitPrioriser && (mod(id-1,nb_philo)== aPrioriser || (id-1%nb_philo)== aPrioriser ))/*|| aMange[id]*/){
+        while(baguettes_prises[id] || baguettes_prises[(id+1)%nb_philo] || (doitPrioriser && (mod(id-1,nb_philo)== aPrioriser || (id+1%nb_philo)== aPrioriser ))/*|| aMange[id]*/){
 
             pthread_cond_wait(&cond,&global);
 
@@ -61,9 +60,13 @@ void prendre_baguettes(int id){
             }
         }
         toursSansManger[id] =0;
-        doitPrioriser =0;
-        aPrioriser = -1;
-        printf("Le philosophe %d prend les baguettes %d\n",id, (id+1)%nb_philo);
+        //Si nous etions le prioritaire
+        if(id == aPrioriser){
+            printf("%d %d\n",id,aPrioriser);
+            doitPrioriser =0;
+            aPrioriser = -1;
+        }
+        printf("Le philosophe %d prend les baguettes %d et %d\n",id, id,(id+1)%nb_philo);
         //lock des mutexs;
         pthread_mutex_lock(&mutexs[id]);
         pthread_mutex_lock(&mutexs[(id+1)%nb_philo]);
@@ -75,7 +78,7 @@ void prendre_baguettes(int id){
 }
 
 void manger(int id){
-        printf("Le philosophe %d mange ! Avec les baguettes %d\n",id, (id+1)%nb_philo);
+        printf("Le philosophe %d mange ! Avec les baguettes %d et %d\n", id, id, (id+1)%nb_philo);
 }
 
 
@@ -88,7 +91,7 @@ void rendre_baguettes(int id){
         //MAJ des booleens
         baguettes_prises[id] = 0;
         baguettes_prises[(id+1)%nb_philo] = 0;
-        printf("Le philosophe %d a rendu les baguettes %d\n",id, (id+1)%nb_philo);
+        printf("Le philosophe %d a rendu les baguettes %d et %d\n", id, id, (id+1)%nb_philo);
         //Relacher le mutex
         pthread_mutex_unlock(&global);
         //Signaler que des baguettes sont de nouveau libre
